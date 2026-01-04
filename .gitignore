@@ -1,0 +1,15 @@
+/logs
+/venv
+.idea
+__pycache__
+.vscode
+.env
+.gradle
+/.prometheus_db
+/htmlcov
+.coverage
+/kafka-certs
+/src/logs/
+.pytest_cache
+/cert
+*/media

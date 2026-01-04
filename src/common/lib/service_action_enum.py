@@ -1,0 +1,6 @@
+from enum import Enum
+
+
+class ServiceActionEnum(str, Enum):
+    FROM_BASE_REPOSITORY = "FROM_BASE_REPOSITORY"
+    FROM_IMPLEMENTED_REPOSITORY = 'FROM_IMPLEMENTED_REPOSITORY'
