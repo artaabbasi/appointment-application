@@ -8,7 +8,7 @@ from .access_rule_definitions.account.admins import access_rule_definitions as a
 from .access_rule_definitions.account.auth import access_rule_definitions as account_auth_definitions
 from .access_rule_definitions.account.customers import access_rule_definitions as account_customers_definitions
 from .access_rule_definitions.file_manager.file import access_rule_definitions as file_manager_file_definitions
-from .access_rule_definitions.form_manager.form_system import access_rule_definitions as form_system_report_definitions
+from .access_rule_definitions.main.main import access_rule_definitions as main_definitions
 
 
 class AccessRuleDefinitionRegistry(AbstractAccessRuleRegistry):
@@ -39,7 +39,7 @@ def register_rule_definitions(registry: AccessRuleDefinitionRegistry):
         *account_auth_definitions,
         *account_admins_definitions,
         *file_manager_file_definitions,
-        *form_system_report_definitions,
+        *main_definitions,
     ]
     for access_role in access_rule_definitions:
         registry.register_access_rule(access_role)

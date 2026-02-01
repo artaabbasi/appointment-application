@@ -21,26 +21,10 @@ from module.file_manager.bucket.entity.file_entity import FileEntity
 from module.file_manager.bucket.entity.folder_access_entity import FolderAccessEntity
 from module.file_manager.bucket.entity.file_meta_data_entity import FileMetaDataEntity
 
-from module.form_manager.form_manager.entity.form_entity import FormEntity
-from module.form_manager.form_manager.entity.form_field_choice_entity import FormFieldChoiceEntity
-from module.form_manager.form_manager.entity.form_field_entity import FormFieldEntity
-from module.form_manager.form_manager.entity.form_change_log_entity import FormChangeLogEntity
-from module.form_manager.form_manager.entity.user_form_change_log_entity import UserFormChangeLogEntity
+from module.appointment.common.entity.service_entity import ServiceEntity
+from module.appointment.common.entity.main_service_entity import MainServiceEntity
+from module.appointment.common.entity.operator_entity import OperatorEntity
 
-from module.form_manager.form_system.entity.form_instance_entity import FormInstanceEntity
-from module.form_manager.form_system.entity.form_instance_assignment_entity import FormInstanceAssignmentEntity
-from module.form_manager.form_system.entity.form_instance_assignment_user_entity import FormInstanceAssignmentUserEntity
-
-from module.form_manager.form_manager.entity.user_form_entity import UserFormEntity
-from module.form_manager.form_manager.entity.user_form_field_answer_entity import UserFormFieldAnswerEntity
-
-from module.api_manager.api_key.entity.api_entity import ApiEntity
-from module.api_manager.api_key.entity.api_tag_entity import ApiTagEntity
-from module.api_manager.api_key.entity.api_key_entity import ApiKeyEntity
-from module.api_manager.api_key.entity.api_key_access_entity import ApiKeyAccessEntity
-
-from module.logging.api_call_log.entity.api_call_log_entity import ApiCallLogEntity
-from module.logging.request_log.entity.request_log_entity import RequestLogEntity
 
 # add your model's MetaData object here
 # for 'autogenerate' support
