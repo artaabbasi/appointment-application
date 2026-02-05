@@ -25,6 +25,9 @@ from module.appointment.common.entity.service_entity import ServiceEntity
 from module.appointment.common.entity.main_service_entity import MainServiceEntity
 from module.appointment.common.entity.operator_entity import OperatorEntity
 from module.appointment.common.entity.operator_time_entity import OperatorTimeEntity
+from module.appointment.common.entity.category_entity import CategoryEntity
+from module.appointment.common.entity.service_category_entity import ServiceCategoryEntity
+from module.appointment.common.entity.operator_service_entity import OperatorServiceEntity
 
 
 from module.appointment.appointment.entity.appointment_entity import AppointmentEntity

@@ -22,7 +22,7 @@ router = APIRouter(prefix='/appointment/appointment',
                    }
                    )
 
-@router.get('/appointment', response_model=GenericResponseListSchema[AppointmentSchema])
+@router.get('', response_model=GenericResponseListSchema[AppointmentSchema])
 async def get_appointments(
         current_user: JWTUserSchema = Depends(CurrentUserUtil(action=ActionEnum.all_access)),
         pagination_query: PaginationSchema = Depends(),
