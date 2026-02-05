@@ -12,5 +12,10 @@ from module.appointment.appointment.entity.appointment_item_entity import Appoin
 class AppointmentItemRepository(BaseRepository):
     def __init__(self):
         super().__init__(AppointmentItemEntity,
-                         filter_fields=[AppointmentItemEntity.appointment_id],
-                         search_fields=[])
+                         filter_fields=[AppointmentItemEntity.appointment_id, AppointmentItemEntity.operator_id],
+                         search_fields=[],
+                         date_filters={
+                             "from_datetime": (DateFilterEnum.FROM, AppointmentItemEntity.from_datetime),
+                             "to_datetime": (DateFilterEnum.TO, AppointmentItemEntity.to_datetime),
+                         }
+                         )

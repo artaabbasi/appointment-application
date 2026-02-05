@@ -65,6 +65,8 @@ class Settings(BaseSettings):
     REFRESH_TOKEN_EXPIRATION_TIME_DELTA_MINUTES: int = Field(..., alias='REFRESH_TOKEN_EXPIRATION_TIME_DELTA_MINUTES')
     API_TOKEN_EXPIRATION_TIME_DELTA_MINUTES: int = Field(..., alias='API_TOKEN_EXPIRATION_TIME_DELTA_MINUTES')
 
+    CART_VALID_SECS: int = Field(60, alias='CART_VALID_SECS')
+
 
 def get_settings():
     settings = Settings()

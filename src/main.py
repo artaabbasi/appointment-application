@@ -15,6 +15,8 @@ from module.gateway.account.controller.role_controller import router as role_rou
 from module.gateway.file_manager.controller.bucket_controller import router as bucket_router
 from module.gateway.logging.controller.log_controller import router as log_router
 from module.gateway.appointment.controller.common_controller import router as appointment_common_router
+from module.gateway.appointment.controller.appointment_controller import router as appointment_router
+from module.gateway.appointment.controller.cart_controller import router as appointment_cart_router
 
 settings = get_settings()
 
@@ -49,6 +51,8 @@ app.include_router(role_router)
 app.include_router(bucket_router)
 app.include_router(log_router)
 app.include_router(appointment_common_router)
+app.include_router(appointment_router)
+app.include_router(appointment_cart_router)
 
 # @app.on_event("startup")
 # async def startup_event():

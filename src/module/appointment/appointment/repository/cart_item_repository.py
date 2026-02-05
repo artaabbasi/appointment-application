@@ -12,5 +12,10 @@ from module.appointment.appointment.entity.cart_item_entity import CartItemEntit
 class CartItemRepository(BaseRepository):
     def __init__(self):
         super().__init__(CartItemEntity,
-                         filter_fields=[CartItemEntity.cart_id],
-                         search_fields=[])
+                         filter_fields=[CartItemEntity.cart_id, CartItemEntity.id, CartItemEntity.operator_id],
+                         search_fields=[],
+                         date_filters={
+                             "from_datetime": (DateFilterEnum.FROM, CartItemEntity.from_datetime),
+                             "to_datetime": (DateFilterEnum.TO, CartItemEntity.to_datetime),
+                         }
+                         )
