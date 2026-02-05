@@ -27,6 +27,12 @@ from module.appointment.common.entity.operator_entity import OperatorEntity
 from module.appointment.common.entity.operator_time_entity import OperatorTimeEntity
 
 
+from module.appointment.appointment.entity.appointment_entity import AppointmentEntity
+from module.appointment.appointment.entity.appointment_item_entity import AppointmentItemEntity
+from module.appointment.appointment.entity.cart_entity import CartEntity
+from module.appointment.appointment.entity.cart_item_entity import CartItemEntity
+
+
 # add your model's MetaData object here
 # for 'autogenerate' support
 from common.lib.base_entity import BaseEntity
