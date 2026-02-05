@@ -27,7 +27,7 @@ router = APIRouter(prefix='/logs',
 
 @router.get('/api-call-log', response_model=GenericResponseListSchema[ApiCallLogSchema])
 async def get_api_call_logs(
-        current_user: JWTUserSchema = Depends(CurrentUserUtil(action=ActionEnum.insurance__admins__list)),
+        current_user: JWTUserSchema = Depends(CurrentUserUtil(action=ActionEnum.admin_access)),
         pagination_query: PaginationSchema = Depends(),
         type: Optional[ApiCalLogTypeEnum] = Query(None),
         method: Optional[HTTPMethodEnum] = Query(None),
@@ -64,7 +64,7 @@ async def get_api_call_logs(
 
 @router.get('/request-log', response_model=GenericResponseListSchema[RequestLogSchema])
 async def get_request_logs(
-        current_user: JWTUserSchema = Depends(CurrentUserUtil(action=ActionEnum.insurance__admins__list)),
+        current_user: JWTUserSchema = Depends(CurrentUserUtil(action=ActionEnum.admin_access)),
         pagination_query: PaginationSchema = Depends(),
         type: Optional[RequestLogTypeEnum] = Query(None),
         method: Optional[HTTPMethodEnum] = Query(None),

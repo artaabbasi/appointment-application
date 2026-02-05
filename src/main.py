@@ -11,15 +11,10 @@ from module.gateway.account.controller.admin_auth_controller import router as ad
 from module.gateway.account.controller.customer_controller import router as customer_router
 from module.gateway.account.controller.admin_controller import router as admin_router
 from module.gateway.account.controller.permission_controller import router as permission_router
-from module.gateway.account.controller.api_key_auth_controller import router as api_key_auth_router
-from module.gateway.account.controller.api_key_user_controller import router as api_key_user_router
 from module.gateway.account.controller.role_controller import router as role_router
-from module.gateway.api_manager.controller.api_key_controller import router as api_key_router
 from module.gateway.file_manager.controller.bucket_controller import router as bucket_router
-from module.gateway.form_manager.controller.form_controller import router as form_router
-from module.gateway.form_manager.controller.form_system_controller import router as form_system_router
-from module.gateway.form_manager.controller.form_system_answer_controller import router as form_system_answer_router
 from module.gateway.logging.controller.log_controller import router as log_router
+from module.gateway.appointment.controller.common_controller import router as appointment_common_router
 
 settings = get_settings()
 
@@ -51,14 +46,9 @@ app.include_router(customer_router)
 app.include_router(admin_router)
 app.include_router(permission_router)
 app.include_router(role_router)
-app.include_router(api_key_router)
-app.include_router(api_key_auth_router)
-app.include_router(api_key_user_router)
 app.include_router(bucket_router)
-app.include_router(form_router)
-app.include_router(form_system_router)
-app.include_router(form_system_answer_router)
 app.include_router(log_router)
+app.include_router(appointment_common_router)
 
 # @app.on_event("startup")
 # async def startup_event():

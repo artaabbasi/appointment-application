@@ -21,7 +21,10 @@ class CustomHttpException(HTTPException):
     def __init__(self, status_code, detail: Dict, headers: Optional[Dict[str, str]] = None):
         super().__init__(status_code=status_code, detail=detail, headers=headers)
         self.detail = detail
-        message = translator.translate(self.detail.get("code"))
+        try:
+            message = translator.translate(self.detail.get("code"))
+        except Exception:
+            message = ""
         self.detail.update({"message": message})
 
 

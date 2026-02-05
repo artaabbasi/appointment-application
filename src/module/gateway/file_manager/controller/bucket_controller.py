@@ -182,7 +182,7 @@ async def delete_folder(
 
 @router.get('/folder-access', response_model=GenericResponseListSchema[FolderAccessSchema])
 async def get_folder_accesses(
-        current_user: JWTUserSchema = Depends(CurrentUserUtil(action=ActionEnum.insurance__admins__list)),
+        current_user: JWTUserSchema = Depends(CurrentUserUtil(action=ActionEnum.admin_access)),
         pagination_query: PaginationSchema = Depends(),
         folder_id: Optional[str] = Query(None),
         type: Optional[FolderAccessType] = Query(None),
@@ -212,7 +212,7 @@ async def get_folder_accesses(
 
 @router.post('/folder-access', response_model=GenericResponseListSchema[FolderAccessSchema])
 async def create_folder_access(
-        current_user: JWTUserSchema = Depends(CurrentUserUtil(action=ActionEnum.insurance__admins__list)),
+        current_user: JWTUserSchema = Depends(CurrentUserUtil(action=ActionEnum.admin_access)),
         data_in: FolderAccessInListSchema = Body(...),
 ):
     result = await (FolderAccessService().
@@ -222,7 +222,7 @@ async def create_folder_access(
 
 @router.patch('/folder-access/{folder_access_id}', response_model=GenericResponseSingleSchema[FolderAccessSchema])
 async def update_folder_access(
-        current_user: JWTUserSchema = Depends(CurrentUserUtil(action=ActionEnum.insurance__admins__list)),
+        current_user: JWTUserSchema = Depends(CurrentUserUtil(action=ActionEnum.admin_access)),
         folder_access_id: str = Path(...),
         data_in: FolderAccessSchema = Body(...),
 ):
@@ -233,7 +233,7 @@ async def update_folder_access(
 
 @router.delete('/folder-access/{folder_access_id}', response_model=None, status_code=204)
 async def delete_folder_access(
-        current_user: JWTUserSchema = Depends(CurrentUserUtil(action=ActionEnum.insurance__admins__list)),
+        current_user: JWTUserSchema = Depends(CurrentUserUtil(action=ActionEnum.admin_access)),
         folder_access_id: str = Path(...),
 ):
     result = await (FolderAccessService().
@@ -243,7 +243,7 @@ async def delete_folder_access(
 
 @router.get('/folder-access/get_access/{folder_id}', response_model=GenericResponseSingleSchema[FolderAccessAccessesSchema])
 async def get_user_access_to_folder(
-        current_user: JWTUserSchema = Depends(CurrentUserUtil(action=ActionEnum.insurance__admins__list)),
+        current_user: JWTUserSchema = Depends(CurrentUserUtil(action=ActionEnum.admin_access)),
         folder_id: str = Path(...),
 ):
     result = await (FolderAccessService().

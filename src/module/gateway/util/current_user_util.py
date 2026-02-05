@@ -17,7 +17,6 @@ from common.exceptions import (
 from common.account.schema.authenticated_user_schema import (
     AuthenticatedUserSchema)
 from module.account.user.service import CustomerService
-from module.api_manager.api_key.service.api_key_service import ApiKeyService
 from module.account.user.util.redis_jwt_util import RedisJwtUtil
 from module.gateway.access_management import AccessManagementService
 from module.gateway.access_management.schema import ActionEnum
@@ -72,25 +71,18 @@ class CurrentUserUtil(HTTPBearer, JwtUtil):
             raise err
 
     async def _run_validations(self, request: Request, user_payload: AuthenticatedUserSchema, method: str):
-        if user_payload.token_type != TokenTypeEnum.api_key:
-            if user_payload.token_type == TokenTypeEnum.refresh:
-                if await RedisJwtUtil().is_token_blacklisted(user_payload.token):
-                    raise BadRequestException(code=AuthenticationErrorCodeEnum.BLOCKED_TOKEN)
+        if user_payload.token_type == TokenTypeEnum.refresh:
+            if await RedisJwtUtil().is_token_blacklisted(user_payload.token):
+                raise BadRequestException(code=AuthenticationErrorCodeEnum.BLOCKED_TOKEN)
 
-                if self.action != ActionEnum.account__auth__refresh_token:
-                    raise BadRequestException(code=AuthenticationErrorCodeEnum.CAN_NOT_USE_REFRESH_TOKEN_FOR_THIS_ROUTE)
-            if AdminRolesEnum.full_read in user_payload.roles and method == HTTPMethodEnum.GET:
-                return None
-            permission = await AccessManagementService().check_if_user_has_access_to_action(user_payload.user_id,
-                                                                                            self.action,
-                                                                                            user_payload.group,
-                                                                                            user_payload.roles,
-                                                                                            user_payload.permissions)
-        else:
-            permission = None
-            url = request.url.path
-            method = HTTPMethodEnum.get_enum_from_str(method)
-            if not await ApiKeyService().api_key_has_access(url, method, user_payload.admin_id):
-                raise ForbiddenException(code=AuthenticationErrorCodeEnum.DONT_HAVE_ACCESS_TO_API)
+            if self.action != ActionEnum.account__auth__refresh_token:
+                raise BadRequestException(code=AuthenticationErrorCodeEnum.CAN_NOT_USE_REFRESH_TOKEN_FOR_THIS_ROUTE)
+        if AdminRolesEnum.full_read in user_payload.roles and method == HTTPMethodEnum.GET:
+            return None
+        permission = await AccessManagementService().check_if_user_has_access_to_action(user_payload.user_id,
+                                                                                        self.action,
+                                                                                        user_payload.group,
+                                                                                        user_payload.roles,
+                                                                                        user_payload.permissions)
 
         return permission

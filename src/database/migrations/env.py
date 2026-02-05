@@ -32,6 +32,9 @@ from module.appointment.appointment.entity.appointment_item_entity import Appoin
 from module.appointment.appointment.entity.cart_entity import CartEntity
 from module.appointment.appointment.entity.cart_item_entity import CartItemEntity
 
+from module.logging.request_log.entity.request_log_entity import RequestLogEntity
+from module.logging.api_call_log.entity.api_call_log_entity import ApiCallLogEntity
+
 
 # add your model's MetaData object here
 # for 'autogenerate' support
