@@ -24,6 +24,7 @@ from module.file_manager.bucket.entity.file_meta_data_entity import FileMetaData
 from module.appointment.common.entity.service_entity import ServiceEntity
 from module.appointment.common.entity.main_service_entity import MainServiceEntity
 from module.appointment.common.entity.operator_entity import OperatorEntity
+from module.appointment.common.entity.operator_time_entity import OperatorTimeEntity
 
 
 # add your model's MetaData object here
