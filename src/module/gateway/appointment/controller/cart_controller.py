@@ -6,6 +6,7 @@ from common.appointment.schema.appointment_schema import AppointmentSchema
 from common.appointment.schema.cart_item_in_schema import CartItemInSchema
 from common.appointment.schema.cart_item_schema import CartItemSchema
 from common.appointment.schema.cart_schema import CartSchema
+from common.appointment.schema.deposit_schema import DepositSchema
 from common.appointment.schema.recommended_item_schema import RecommendItemSchema
 from common.schema.pagination_schema import PaginationSchema
 from common.schema.response_base_schema import GenericResponseSingleSchema, GenericResponseListSchema
@@ -49,6 +50,15 @@ async def submit_cart(
     result = await (CartService().
                     make_appointment_from_cart(cart_id))
     return GenericResponseSingleSchema[AppointmentSchema].return_response(result)
+
+@router.get('/calc_cart_deposit/{cart_id}', response_model=GenericResponseSingleSchema[DepositSchema])
+async def calc_cart_deposit(
+        current_user: JWTUserSchema = Depends(CurrentUserUtil(action=ActionEnum.all_access)),
+        cart_id: str = Path(...),
+):
+    result = await (CartService().
+                    calc_cart_deposit(cart_id))
+    return GenericResponseSingleSchema[DepositSchema].return_response(result)
 
 @router.get('/cart-item', response_model=GenericResponseListSchema[CartItemSchema])
 async def get_cart_items(

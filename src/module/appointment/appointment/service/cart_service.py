@@ -1,10 +1,13 @@
 from datetime import timedelta
+from math import ceil
 
+from common.appointment.enum.deposit_type_enum import DepositTypeEnum
 from common.appointment.schema.appointment_in_schema import AppointmentInSchema
 from common.appointment.schema.appointment_item_in_schema import AppointmentItemInSchema
 from common.appointment.schema.appointment_schema import AppointmentSchema
 from common.appointment.schema.cart_in_schema import CartInSchema
 from common.appointment.schema.cart_schema import CartSchema
+from common.appointment.schema.deposit_schema import DepositSchema
 from common.exceptions import NotFoundException, BadRequestException
 from common.lib.service_action_enum import ServiceActionEnum
 from module.gateway.enum.error_code_enum import ErrorCodeEnum
@@ -16,6 +19,7 @@ from ..entity.cart_entity import CartEntity
 from common.lib.base_crud_service import BaseCRUDService
 from ..entity.cart_item_entity import CartItemEntity
 from ..repository.cart_repository import CartRepository
+from ...common.service.service_service import ServiceService
 
 
 class CartService(BaseCRUDService):
@@ -25,6 +29,7 @@ class CartService(BaseCRUDService):
         self.appointment_service = AppointmentService()
         self.appointment_item_service = AppointmentItemService()
         self.cart_item_service = CartItemService()
+        self.service_service = ServiceService()
 
     async def get_cart_by_id(self, cart_id: str) -> CartSchema:
         cart = await self.repository.fetch_by_id(cart_id)
@@ -87,3 +92,22 @@ class CartService(BaseCRUDService):
         cart.valid_to = appointment.created_at
         await self.repository.update(cart)
         return appointment
+
+    async def calc_cart_deposit(self, cart_id: str) -> DepositSchema:
+        cart = await self.repository.fetch_by_id(cart_id)
+        if not cart.valid_to >= DatetimeUtil.utc_now_datetime() :
+            raise BadRequestException(ErrorCodeEnum.INVALID_CART)
+
+        cart_items = await self.cart_item_service.get_cart_item_list(page=1, size=-1, filters={CartItemEntity.cart_id: cart_id})
+        price = 0
+        for cart_item in cart_items:
+            service = await self.service_service.get_service_by_id(cart_item.service_id)
+            if not (service.deposit_amount and service.price_as_rial):
+                continue
+            if service.deposit_type == DepositTypeEnum.ABSOLUTE:
+                price += service.deposit_amount
+            else:
+                price += ceil((service.deposit_amount * service.price_as_rial) / 100)
+        return DepositSchema(
+            amount=price
+        )
