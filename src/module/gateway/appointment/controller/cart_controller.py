@@ -6,11 +6,13 @@ from common.appointment.schema.appointment_schema import AppointmentSchema
 from common.appointment.schema.cart_item_in_schema import CartItemInSchema
 from common.appointment.schema.cart_item_schema import CartItemSchema
 from common.appointment.schema.cart_schema import CartSchema
+from common.appointment.schema.recommended_item_schema import RecommendItemSchema
 from common.schema.pagination_schema import PaginationSchema
 from common.schema.response_base_schema import GenericResponseSingleSchema, GenericResponseListSchema
 from module.appointment.appointment.entity.cart_item_entity import CartItemEntity
 from module.appointment.appointment.service.cart_item_service import CartItemService
 from module.appointment.appointment.service.cart_service import CartService
+from module.appointment.appointment.service.recommender_service import RecommenderService
 from module.gateway.access_management.schema import ActionEnum
 from module.gateway.schema.jwt_user_schema import JWTUserSchema
 from module.gateway.util.current_user_util import CurrentUserUtil
@@ -83,3 +85,13 @@ async def delete_cart_item(
     result = await (CartItemService().
                     delete_cart_item(cart_item_id))
     return None
+
+@router.get('/recommend_service/{cart_id}',
+              response_model=GenericResponseListSchema[RecommendItemSchema])
+async def get_recommend_services_for_cart(
+        current_user: JWTUserSchema = Depends(CurrentUserUtil(action=ActionEnum.customer_access)),
+        cart_id: str = Path(...),
+):
+    result = await (RecommenderService().
+                    get_recommended_services_for_cart_id(cart_id))
+    return GenericResponseListSchema[RecommendItemSchema].return_response(result)

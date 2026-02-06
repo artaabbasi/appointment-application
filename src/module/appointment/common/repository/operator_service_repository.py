@@ -12,6 +12,6 @@ from module.appointment.common.entity.operator_service_entity import OperatorSer
 class OperatorServiceRepository(BaseRepository):
     def __init__(self):
         super().__init__(OperatorServiceEntity,
-                         filter_fields=[OperatorServiceEntity.operator_id],
+                         filter_fields=[OperatorServiceEntity.operator_id, OperatorServiceEntity.service_id],
                          search_fields=[]
                          )

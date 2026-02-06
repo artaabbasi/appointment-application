@@ -68,6 +68,7 @@ class CartService(BaseCRUDService):
         cart = await self.repository.fetch_by_id(cart_id)
         if not cart.valid_to >= DatetimeUtil.utc_now_datetime() :
             raise BadRequestException(ErrorCodeEnum.INVALID_CART)
+
         cart_items = await self.cart_item_service.get_cart_item_list(page=1, size=-1, filters={CartItemEntity.cart_id: cart_id})
         appointment = await self.appointment_service.create_appointment(AppointmentInSchema(
             user_id=cart.user_id,
@@ -83,4 +84,6 @@ class CartService(BaseCRUDService):
                     to_datetime=cart_item.to_datetime,
                 )
             )
+        cart.valid_to = appointment.created_at
+        await self.repository.update(cart)
         return appointment

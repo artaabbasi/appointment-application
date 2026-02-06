@@ -16,6 +16,8 @@ class AppointmentItemRepository(BaseRepository):
                          search_fields=[],
                          date_filters={
                              "from_datetime": (DateFilterEnum.FROM, AppointmentItemEntity.from_datetime),
+                             "from_datetime_to": (DateFilterEnum.TO, AppointmentItemEntity.from_datetime),
+                             "to_datetime_from": (DateFilterEnum.FROM, AppointmentItemEntity.to_datetime),
                              "to_datetime": (DateFilterEnum.TO, AppointmentItemEntity.to_datetime),
                          }
                          )

@@ -14,12 +14,14 @@ from common.appointment.schema.operator_service_in_schema import OperatorService
 from common.appointment.schema.operator_service_schema import OperatorServiceSchema
 from common.appointment.schema.operator_time_in_schema import OperatorTimeInSchema
 from common.appointment.schema.operator_time_schema import OperatorTimeSchema
+from common.appointment.schema.reserved_time_schema import ReservedTimeSchema
 from common.appointment.schema.service_category_in_schema import ServiceCategoryInSchema
 from common.appointment.schema.service_category_schema import ServiceCategorySchema
 from common.appointment.schema.service_in_schema import ServiceInSchema
 from common.appointment.schema.service_schema import ServiceSchema
 from common.schema.pagination_schema import PaginationSchema
 from common.schema.response_base_schema import GenericResponseListSchema, GenericResponseSingleSchema
+from module.appointment.appointment.service.free_time_service import FreeTimeService
 from module.appointment.common.entity.operator_service_entity import OperatorServiceEntity
 from module.appointment.common.entity.operator_time_entity import OperatorTimeEntity
 from module.appointment.common.entity.service_category_entity import ServiceCategoryEntity
@@ -122,6 +124,17 @@ async def get_operator_times(
                                                                               page=pagination_query.page,
                                                                               size=pagination_query.size,
                                                                               count=count)
+
+@router.get('/reserved-operator-time', response_model=GenericResponseListSchema[ReservedTimeSchema])
+async def get_reserved_operator_times(
+        current_user: JWTUserSchema = Depends(CurrentUserUtil(action=ActionEnum.all_access)),
+        operator_id: Optional[str] = Query(...),
+        from_datetime: Optional[datetime] = Query(...),
+        to_datetime: Optional[datetime] = Query(...),
+):
+    result = await (FreeTimeService().
+                    get_operator_reserved_times(operator_id, from_datetime, to_datetime))
+    return GenericResponseListSchema[ReservedTimeSchema].return_response(result)
 
 @router.post('/operator-time', response_model=GenericResponseSingleSchema[OperatorTimeSchema])
 async def create_operator_time(

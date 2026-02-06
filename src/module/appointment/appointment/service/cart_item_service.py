@@ -33,7 +33,7 @@ class CartItemService(BaseCRUDService):
         return await self._delete_by_id(entity_id)
 
     async def create_cart_item(self, data_in: CartItemInSchema) -> CartItemSchema:
-        this_cart_items = await self.get_cart_item_list(page=1, size=-1, filters={CartItemEntity.id: data_in.cart_id})
+        this_cart_items = await self.get_cart_item_list(page=1, size=-1, filters={CartItemEntity.cart_id: data_in.cart_id})
         for cart_item in this_cart_items:
             if cart_item.from_datetime >= data_in.from_datetime and cart_item.to_datetime <= data_in.to_datetime:
                 raise BadRequestException(ErrorCodeEnum.CONFLICT_WITH_CART)

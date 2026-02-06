@@ -159,9 +159,9 @@ class BaseRepository(Generic[T]):
             if name in filters.keys():
                 value = filters.get(name)
                 if filter_data[0] == DateFilterEnum.FROM:
-                    where.append(filter_data[1] >= value)
+                    where.append(filter_data[1] > value)
                 elif filter_data[0] == DateFilterEnum.TO:
-                    where.append(filter_data[1] <= value)
+                    where.append(filter_data[1] < value)
                 else:
                     where.append(filter_data[1] == value)
 

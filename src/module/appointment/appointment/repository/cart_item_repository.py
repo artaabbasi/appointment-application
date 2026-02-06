@@ -16,6 +16,8 @@ class CartItemRepository(BaseRepository):
                          search_fields=[],
                          date_filters={
                              "from_datetime": (DateFilterEnum.FROM, CartItemEntity.from_datetime),
+                             "from_datetime_to": (DateFilterEnum.TO, CartItemEntity.from_datetime),
+                             "to_datetime_from": (DateFilterEnum.FROM, CartItemEntity.to_datetime),
                              "to_datetime": (DateFilterEnum.TO, CartItemEntity.to_datetime),
                          }
                          )
