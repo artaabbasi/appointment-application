@@ -11,5 +11,5 @@ from module.appointment.common.entity.operator_entity import OperatorEntity
 class OperatorRepository(BaseRepository):
     def __init__(self):
         super().__init__(OperatorEntity,
-                         filter_fields=[],
+                         filter_fields=[OperatorEntity.is_active],
                          search_fields=[OperatorEntity.name])

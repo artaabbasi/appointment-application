@@ -22,6 +22,7 @@ from common.appointment.schema.service_schema import ServiceSchema
 from common.schema.pagination_schema import PaginationSchema
 from common.schema.response_base_schema import GenericResponseListSchema, GenericResponseSingleSchema
 from module.appointment.appointment.service.free_time_service import FreeTimeService
+from module.appointment.common.entity.operator_entity import OperatorEntity
 from module.appointment.common.entity.operator_service_entity import OperatorServiceEntity
 from module.appointment.common.entity.operator_time_entity import OperatorTimeEntity
 from module.appointment.common.entity.service_category_entity import ServiceCategoryEntity
@@ -49,9 +50,11 @@ async def get_operators(
         current_user: JWTUserSchema = Depends(CurrentUserUtil(action=ActionEnum.all_access)),
         pagination_query: PaginationSchema = Depends(),
         search: Optional[str] = Query(None),
+        is_active: Optional[bool] = Query(None),
 ):
     filters = {}
-
+    if is_active is not None:
+        filters.update({OperatorEntity.is_active: is_active})
     result = await (OperatorService().
                     get_operator_list(page=pagination_query.page, size=pagination_query.size, filters=filters, search=search))
     count = await (OperatorService().get_count(filters=filters, search=search))
@@ -369,10 +372,13 @@ async def get_services(
         pagination_query: PaginationSchema = Depends(),
         search: Optional[str] = Query(None),
         main_service_id: Optional[str] = Query(None),
+        is_active: Optional[bool] = Query(None),
 ):
     filters = {}
     if main_service_id is not None:
         filters.update({ServiceEntity.main_service_id: main_service_id})
+    if is_active is not None:
+        filters.update({ServiceEntity.is_active: is_active})
     result = await (ServiceService().
                     get_service_list(page=pagination_query.page, size=pagination_query.size, filters=filters, search=search))
     count = await (ServiceService().get_count(filters=filters, search=search))

@@ -7,3 +7,4 @@ class OperatorInSchema(BaseModel):
     user_id: Optional[str] = None
     name: str
     description: Optional[str] = None
+    is_active: Optional[bool] = None

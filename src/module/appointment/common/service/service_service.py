@@ -33,6 +33,11 @@ class ServiceService(BaseCRUDService):
                 main_service_id=data_in.main_service_id,
                 name=data_in.name,
                 duration=data_in.duration,
+                description=data_in.description,
+                price_as_rial=data_in.price_as_rial,
+                deposit_type=data_in.deposit_type,
+                deposit_amount=data_in.deposit_amount,
+                is_active=data_in.is_active,
             )
         )
         return service.convert_to_schema()

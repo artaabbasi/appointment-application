@@ -1,5 +1,5 @@
 from sqlalchemy import (Column,
-                        String, Text,
+                        String, Text, Boolean,
                         )
 
 from common.appointment.schema.operator_schema import OperatorSchema
@@ -12,6 +12,7 @@ class OperatorEntity(BaseEntity):
     user_id = Column(String(64), nullable=True)
     name = Column(String(1028), nullable=False)
     description = Column(Text, nullable=True)
+    is_active = Column(Boolean, nullable=False)
 
     def convert_to_schema(self):
         return OperatorSchema(

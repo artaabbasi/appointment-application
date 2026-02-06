@@ -11,6 +11,7 @@ from module.appointment.appointment.service.cart_service import CartService
 from module.appointment.appointment.service.free_time_service import FreeTimeService
 from module.appointment.common.entity.operator_service_entity import OperatorServiceEntity
 from module.appointment.common.entity.service_category_entity import ServiceCategoryEntity
+from module.appointment.common.entity.service_entity import ServiceEntity
 from module.appointment.common.service.operator_service_service import OperatorServiceService
 from module.appointment.common.service.service_category_service import ServiceCategoryService
 from module.appointment.common.service.service_service import ServiceService
@@ -94,7 +95,7 @@ class RecommenderService(BaseService):
                 can_recommend_service_ids.extend(same_category_service_ids)
             else:
                 selected_service = await self.service_service.get_service_by_id(selected_service_id)
-                other_services = await self.service_service.get_service_list(page=1, size=-1)
+                other_services = await self.service_service.get_service_list(page=1, size=-1, filters={ServiceEntity.is_active: True})
                 for service in other_services:
                     if (service.id not in cart_service_ids
                             and service.id != selected_service_id

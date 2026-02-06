@@ -9,3 +9,4 @@ class OperatorSchema(BaseOutputModel):
     user_id: Optional[str] = None
     name: str
     description: Optional[str] = None
+    is_active: Optional[bool] = None

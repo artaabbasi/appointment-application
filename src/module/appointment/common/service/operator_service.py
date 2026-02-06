@@ -33,6 +33,7 @@ class OperatorService(BaseCRUDService):
                 user_id=data_in.user_id,
                 name=data_in.name,
                 description=data_in.description,
+                is_active=data_in.is_active,
             )
         )
         return operator.convert_to_schema()

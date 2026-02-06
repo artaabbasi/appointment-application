@@ -11,5 +11,5 @@ from module.appointment.common.entity.service_entity import ServiceEntity
 class ServiceRepository(BaseRepository):
     def __init__(self):
         super().__init__(ServiceEntity,
-                         filter_fields=[ServiceEntity.main_service_id],
+                         filter_fields=[ServiceEntity.main_service_id, ServiceEntity.is_active],
                          search_fields=[ServiceEntity.name])
