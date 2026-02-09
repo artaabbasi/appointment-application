@@ -80,21 +80,6 @@ async def reset_user_password(
     return None
 
 
-@router.get('/send_otp')
-async def send_otp_user(
-        current_user: JWTUserSchema = Depends(CurrentUserUtil(action=ActionEnum.account__admins__user_info)),
-):
-    result = await AdminAuthService().send_verification_code(current_user.user_id)
-    return None
-
-
-@router.post('/send_otp')
-async def send_otp_username(
-        username: str = Body(..., embed=True),
-):
-    result = await AdminAuthService().send_verification_code_by_username(username)
-    return None
-
 @router.post('/change_password')
 async def change_user_password(
         current_user: JWTUserSchema = Depends(CurrentUserUtil(action=ActionEnum.account__admins__user_info)),

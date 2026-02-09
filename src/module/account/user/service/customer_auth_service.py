@@ -40,7 +40,7 @@ class CustomerAuthService(BaseService):
             user.verification_code_expires_at = (
                     DatetimeUtil.utc_now_datetime() + TokenConfig.TOKEN_INTERVAL_IN_MINUTES)
             await self.user_repository.update(user)
-            text_message = ""
+            text_message = "کد ورود {}"
             await SmsUtil().send_sms([phone_number], text_message.format(user.verification_code,
                                                                    user.verification_code))
         else:
