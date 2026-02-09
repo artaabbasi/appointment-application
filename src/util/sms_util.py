@@ -1,9 +1,7 @@
 from typing import List
-from aiohttp import ClientTimeout, ClientSession
 from common.lib.base_service import BaseService
-from requests.auth import HTTPBasicAuth
-from requests import Session
-from common.config import ApiEndpoint
+from common.config.api_endpoint import ApiEndpoint
+from util.request_util import RequestUtil
 
 
 class SmsUtil(BaseService):
@@ -11,13 +9,12 @@ class SmsUtil(BaseService):
     async def send_sms(self, recipients_input: List[str], text: str):
         payload = {"recipient": recipients_input, "message": text, "sender": self._get_settings().IP_PANEL_SMS_SENDER}
         url = ApiEndpoint().send_sms_url
-        timeout = ClientTimeout(total=1)
         headers = {
             'apikey': self._get_settings().IP_PANEL_API_KEY,
             }
         try:
-            async with ClientSession(timeout=timeout) as session:
-                async with session.request('POST', url, json=payload, verify_ssl=False, headers=headers) as response:
-                    pass
+            response = await RequestUtil.perform_request(method='POST', url=url,
+                                                         headers=headers, json=payload,
+                                                         timeout=10)
         except Exception as e:
             return f"Error in sending sms : {e}"

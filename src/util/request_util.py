@@ -7,7 +7,6 @@ from aiohttp.client_exceptions import ContentTypeError, ClientConnectorError, Se
 
 from common.exceptions import BadRequestException
 from common.lib.main_errors_enum import MainErrorsEnum
-from common.util.bale_sender_util import BaleSenderUtil
 from util.logger import get_custom_logger
 from asyncio import TimeoutError
 from json import loads, dumps
@@ -38,32 +37,6 @@ class ResponseDetail:
             if body is None:
                 body = {}
             detail = body.get('detail', body)
-            message = f"""❌  LOOK an error in external apis!  ❌
-            
-⚠️  url: 
-```
-{self.url}
-```
-⚠️  status code: 
-```
-{self.status_code}
-```
-⚠️  headers: 
-```
-{json.dumps(self.req_headers, indent=2, ensure_ascii=False) if isinstance(self.req_headers, dict) else self.req_headers}
-```
-⚠️  payload: 
-```
-{json.dumps(self.payload, indent=2, ensure_ascii=False) if isinstance(self.payload, dict) else self.payload}
-```
-⚠️  detail: 
-```
-{json.dumps(detail, indent=2, ensure_ascii=False) if isinstance(detail, dict) else detail}
-```
-"""
-
-            await BaleSenderUtil().send_log_message(message)
-
             raise HTTPException(status_code=422,
                                 detail=detail,
                                 headers={"Response-Status-Code": str(self.status_code)})
