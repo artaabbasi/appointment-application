@@ -1,5 +1,5 @@
 from sqlalchemy import (Column,
-                        String, Text, DateTime
+                        String, Text, DateTime, Boolean
                         )
 
 from common.appointment.schema.appointment_item_schema import AppointmentItemSchema
@@ -14,7 +14,7 @@ class AppointmentItemEntity(BaseEntity):
     operator_id = Column(String(64), nullable=False)
     from_datetime = Column(DateTime(timezone=True), nullable=False)
     to_datetime = Column(DateTime(timezone=True), nullable=False)
-
+    is_cancelled = Column(Boolean, nullable=True, default=False)
 
     def convert_to_schema(self):
         return AppointmentItemSchema(

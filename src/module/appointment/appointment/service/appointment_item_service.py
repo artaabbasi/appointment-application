@@ -38,3 +38,8 @@ class AppointmentItemService(BaseCRUDService):
             )
         )
         return appointment_item.convert_to_schema()
+
+    async def cancel_appointment_item(self, appointment_item_id: str) -> None:
+        appointment_item = await self.repository.fetch_by_id(appointment_item_id)
+        appointment_item.is_cancelled = True
+        await self.repository.update(appointment_item)

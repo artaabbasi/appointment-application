@@ -12,3 +12,4 @@ class AppointmentItemSchema(BaseOutputModel):
     operator_id: str
     from_datetime: datetime
     to_datetime: datetime
+    is_cancelled: Optional[bool] = False

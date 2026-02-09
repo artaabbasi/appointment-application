@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, Path
 
 from common.account.enum.user_group_enum import UserGroupEnum
 from common.appointment.schema.appointment_item_schema import AppointmentItemSchema
@@ -75,3 +75,12 @@ async def get_appointment_items(
                                                                       page=pagination_query.page,
                                                                       size=pagination_query.size,
                                                                       count=count)
+
+@router.delete('/cancel/{appointment_id}', response_model=None, status_code=204)
+async def cancel_appointment(
+        current_user: JWTUserSchema = Depends(CurrentUserUtil(action=ActionEnum.all_access)),
+        appointment_id: str = Path(...),
+):
+    result = await (AppointmentService().
+                    cancel_appointment(current_user.user_id, appointment_id))
+    return None

@@ -19,6 +19,7 @@ class AppointmentService(BaseCRUDService):
     def __init__(self):
         super().__init__(AppointmentRepository, AppointmentEntity,
                          ServiceActionEnum.FROM_IMPLEMENTED_REPOSITORY)
+        self.appointment_item_service = AppointmentItemService()
 
     async def get_appointment_by_id(self, appointment_id: str) -> AppointmentSchema:
         appointment = await self.repository.fetch_by_id(appointment_id)
@@ -34,6 +35,11 @@ class AppointmentService(BaseCRUDService):
         return appointment.convert_to_schema()
 
     async def delete_appointment(self, entity_id: str) -> None:
+        appointment_items = await self.appointment_item_service.get_appointment_item_list(
+            1, -1, filters={AppointmentItemEntity.appointment_id: entity_id}
+        )
+        for appointment_item in appointment_items:
+            await self.appointment_item_service.delete_appointment_item(appointment_item.id)
         return await self._delete_by_id(entity_id)
 
     async def create_appointment(self, data_in: AppointmentInSchema) -> AppointmentSchema:
@@ -48,7 +54,7 @@ class AppointmentService(BaseCRUDService):
     async def send_appointment_message(self, appointment_id: str) -> None:
         appointment = await self.get_appointment_by_id(appointment_id)
         user = await CustomerService().get_not_detailed_user_by_id(appointment.user_id)
-        appointment_items = await AppointmentItemService().get_appointment_item_list(
+        appointment_items = await self.appointment_item_service.get_appointment_item_list(
             1, -1, filters={AppointmentItemEntity.appointment_id: appointment_id}
         )
         item_date_set = {appointment_item.from_datetime.date() for appointment_item in appointment_items}
@@ -64,3 +70,19 @@ class AppointmentService(BaseCRUDService):
         else:
             date_message = f"روز {DatetimeUtil.utc_to_jalali_date(appointment_dates[0]).strftime('%Y/%m/%d')}"
         return f"کاربر {full_name} رزرو شما در {date_message} انجام شد"
+
+    async def _appointment_could_cancelled(self):
+        pass
+
+    async def cancel_appointment(self, user_id: str, appointment_id: str) -> None:
+        appointment = await self.repository.fetch_by_id(appointment_id)
+        await self._appointment_could_cancelled()
+        appointment_items = await self.appointment_item_service.get_appointment_item_list(
+            1, -1, filters={AppointmentItemEntity.appointment_id: appointment_id}
+        )
+        for appointment_item in appointment_items:
+            await self.appointment_item_service.cancel_appointment_item(appointment_item.id)
+        appointment.is_cancelled = True
+        appointment.cancelled_at = DatetimeUtil.utc_now_datetime()
+        appointment.cancelled_by_id = user_id
+        await self.repository.update(appointment)
