@@ -8,8 +8,8 @@ A monolithic modular backend.
   - Install the dependencies with `poetry install`.
   - Activate poetry env with `poetry shell`.
   - install pyenv using [this link](https://github.com/pyenv/pyenv)
-  - install python version 14 using `pyenv install 3.14`
-  - use python version 14 using pyenv command `poetry env use {path to python 14}`
+  - install python version 12 using `pyenv install 3.12`
+  - use python version 12 using pyenv command `poetry env use {path to python 12}`
     -  further information on this [link](https://python-poetry.org/docs/managing-environments/) is available 
 - Run with uvicorn
   - Navigate into `src` directory.

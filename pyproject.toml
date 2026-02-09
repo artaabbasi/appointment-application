@@ -6,7 +6,7 @@ authors = ["arta <arta1382@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.14"
+python = "^3.12"
 fastapi = "^0.128.0"
 starlette = "^0.50.0"
 fastapi-lifespan-manager = "^0.1.4"
