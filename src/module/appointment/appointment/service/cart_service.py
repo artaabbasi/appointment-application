@@ -71,10 +71,13 @@ class CartService(BaseCRUDService):
 
     async def make_appointment_from_cart(self, cart_id: str) -> AppointmentSchema:
         cart = await self.repository.fetch_by_id(cart_id)
-        if not cart.valid_to >= DatetimeUtil.utc_now_datetime() :
+        if not cart.valid_to >= DatetimeUtil.utc_now_datetime():
             raise BadRequestException(ErrorCodeEnum.INVALID_CART)
 
         cart_items = await self.cart_item_service.get_cart_item_list(page=1, size=-1, filters={CartItemEntity.cart_id: cart_id})
+        if not cart_items:
+            raise BadRequestException(ErrorCodeEnum.EMPTY_CART)
+
         appointment = await self.appointment_service.create_appointment(AppointmentInSchema(
             user_id=cart.user_id,
             description=cart.description,
@@ -91,6 +94,7 @@ class CartService(BaseCRUDService):
             )
         cart.valid_to = appointment.created_at
         await self.repository.update(cart)
+        await self.appointment_service.send_appointment_message(appointment.id)
         return appointment
 
     async def calc_cart_deposit(self, cart_id: str) -> DepositSchema:
