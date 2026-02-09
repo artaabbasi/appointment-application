@@ -66,7 +66,9 @@ class Settings(BaseSettings):
     API_TOKEN_EXPIRATION_TIME_DELTA_MINUTES: int = Field(..., alias='API_TOKEN_EXPIRATION_TIME_DELTA_MINUTES')
 
     CART_VALID_SECS: int = Field(60, alias='CART_VALID_SECS')
-
+    IP_PANEL_GATEWAY: str = Field(..., alias='IP_PANEL_GATEWAY')
+    IP_PANEL_SMS_SENDER: str = Field(..., alias='IP_PANEL_SMS_SENDER')
+    IP_PANEL_API_KEY: str = Field(..., alias='IP_PANEL_API_KEY')
 
 def get_settings():
     settings = Settings()
